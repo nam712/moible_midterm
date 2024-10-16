@@ -1,14 +1,15 @@
-import 'react-native-gesture-handler';
 import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import SignInScreen from './SignInScreen'; 
+
+const Stack = createStackNavigator();
 
 // Lấy kích thước màn hình
 const { height } = Dimensions.get('window');
 
-// Onboarding Screen Component
-function OnboardingScreen({ navigation }) {
+const OnboardingScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Hình ảnh intro full màn hình */}
@@ -19,6 +20,7 @@ function OnboardingScreen({ navigation }) {
       
       {/* Các thành phần text và nút */}
       <View style={styles.overlayOnboarding}>
+        <Image source={require('./assets/carrot.png')} style={styles.logo} />
         <Text style={styles.titleOnboarding}>Welcome</Text>
         <Text style={styles.titleOnboarding}>to our store</Text>
         <Text style={styles.subtitle}>Get your groceries in as fast as one hour</Text>
@@ -33,64 +35,19 @@ function OnboardingScreen({ navigation }) {
       </View>
     </View>
   );
-}
-
-// SignIn Screen Component
-function SignInScreen() {
-  return (
-    <View style={styles.container}>
-      {/* Full-screen background image */}
-      <Image
-        source={require('./assets/signup.jpg')} // Add your image path here
-        style={styles.backgroundImageSignIn}
-      />
-
-      {/* Content overlay (Text and buttons) */}
-      <View style={styles.overlaySignIn}>
-        <Text style={styles.subtitleSign}>Get your groceries </Text>
-        <Text style={styles.subtitleSign}>with nectar</Text>
-        {/* Display phone number input or social media login */}
-        <View style={styles.phoneInputContainer}>
-          <Text style={styles.flag}>🇧🇩 +880</Text>
-        </View>
-
-        <Text style={styles.orText}>Or connect with social media</Text>
-
-        {/* Google and Facebook login buttons */}
-        <TouchableOpacity style={styles.googleButton}>
-          <Text style={styles.buttonText}>Continue with Google</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.facebookButton}>
-          <Text style={styles.buttonText}>Continue with Facebook</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
-
-// Stack Navigator Setup
-const Stack = createStackNavigator();
+};
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Onboarding">
-        <Stack.Screen 
-          name="Onboarding" 
-          component={OnboardingScreen} 
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen 
-          name="SignIn" 
-          component={SignInScreen} 
-          options={{ headerShown: false }}
-        />
+      <Stack.Navigator initialRouteName="Onboarding" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+        <Stack.Screen name="SignIn" component={SignInScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-// Styles for the app
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -107,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: height * 0.30,
+    paddingTop: height * 0.30, // Đã sửa lỗi chiều cao
     zIndex: 1,
   },
   titleOnboarding: {
@@ -122,11 +79,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
-  subtitleSign: {
-    fontSize: 30, // Đổi kích thước chữ thành 30
-    textAlign: 'left', // Căn trái
-    marginBottom: 20,
-    fontWeight: 'bold',
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+    resizeMode: 'contain', // Đảm bảo logo giữ nguyên tỉ lệ
   },
   button: {
     width: '90%',  // Mở rộng nút 90% chiều rộng màn hình
@@ -140,49 +97,5 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-  },
-  backgroundImageSignIn: {
-    width: '100%',
-    height: '40%', // Adjust the height for a top-banner style image
-    resizeMode: 'cover',
-  },
-  overlaySignIn: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: -height * 0.05, // Adjust the content positioning
-  },
-  phoneInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f1f1f1',
-    padding: 15,
-    borderRadius: 8,
-    width: '80%',
-    marginBottom: 20,
-  },
-  flag: {
-    fontSize: 18,
-    marginRight: 10,
-  },
-  orText: {
-    fontSize: 16,
-    color: '#888',
-    marginBottom: 20,
-  },
-  googleButton: {
-    width: '80%',
-    backgroundColor: '#4285F4',
-    paddingVertical: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  facebookButton: {
-    width: '80%',
-    backgroundColor: '#3b5998',
-    paddingVertical: 15,
-    borderRadius: 8,
-    alignItems: 'center',
   },
 });
