@@ -4,6 +4,8 @@
 
 **Mã sinh viên**: BIT220114
 
+**Lớp**: 22IT3
+
 ## Kết quả bài tập
 
 ![Kết quả bài tập](./Onboarding.jpg) 
